@@ -14,7 +14,7 @@ struct ItemRow: View {
 
     var body: some View {
         
-        NavigationLink(destination: Text(menuItem.name)) {
+        NavigationLink(destination: ItemDetail(item: menuItem)) {
             HStack{
             Image(menuItem.thumbnailImage)
                 .clipShape(Circle())
