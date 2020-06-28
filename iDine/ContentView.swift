@@ -20,7 +20,7 @@ struct ContentView: View {
                         }
                     }
                 }
-            }.navigationBarTitle("Row of text")
+            }.navigationBarTitle("Menu")
             .listStyle(GroupedListStyle())
         }
        

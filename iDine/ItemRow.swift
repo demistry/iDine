@@ -13,7 +13,9 @@ struct ItemRow: View {
     static let colors: [String: Color] = ["D": .purple, "G": .black, "N": .red, "S": .blue, "V": .green]
 
     var body: some View {
-        HStack{
+        
+        NavigationLink(destination: Text(menuItem.name)) {
+            HStack{
             Image(menuItem.thumbnailImage)
                 .clipShape(Circle())
                 .overlay(Circle().stroke(Color.gray, lineWidth: 2))
@@ -31,6 +33,7 @@ struct ItemRow: View {
                     .background(Self.colors[restriction, default: .black])
                     .clipShape(Circle())
                     .foregroundColor(.white)
+                }
             }
         }
     }
