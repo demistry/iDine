@@ -14,10 +14,12 @@ struct CheckoutView: View {
     @State private var addLoyaltyDetails = false
     @State private var loyaltyNumber = ""
     @State private var tipAmount = 1
+    @State private var pickupTime = 0
     @State private var showingPaymentAlert = false
     
     static let tipAmounts = [10, 15, 20, 25, 0]
     static let paymentTypes = ["Cash", "Credit Card", "iDine Points"]
+    static let pickupTimes = ["Now", "Tonight", "Tomorrow"]
     var totalPrice: Double {
         let total = Double(order.total)
         let tipValue = total / 100 * Double(Self.tipAmounts[tipAmount])
@@ -47,6 +49,14 @@ struct CheckoutView: View {
                 }.pickerStyle(SegmentedPickerStyle())
             }
             
+            Section(header: Text("Pickup time")){
+                Picker("Pick up at", selection: $pickupTime){
+                    ForEach(0..<Self.pickupTimes.count){
+                        Text("\(Self.pickupTimes[$0])")
+                    }
+                }.pickerStyle(SegmentedPickerStyle())
+            }
+            
             Section(header: Text("TOTAL: \(totalPrice, specifier: "%.2f")")
                 .font(.largeTitle)){
                 Button("Confirm Order"){
@@ -54,7 +64,7 @@ struct CheckoutView: View {
                 }
             }
             .alert(isPresented: $showingPaymentAlert) {
-                Alert(title: Text("Order confirmed"), message: Text("Your total was \(totalPrice,specifier: "%.2f") -thank you"), dismissButton: .default(Text("OK")))
+                Alert(title: Text("Order confirmed"), message: Text("Your total was \(totalPrice,specifier: "%.2f") -thank you, pick up \(Self.pickupTimes[pickupTime])"), dismissButton: .default(Text("OK")))
             }
         }.navigationBarTitle(Text("Payment"), displayMode: .inline)
     }
@@ -63,8 +73,9 @@ struct CheckoutView: View {
 struct CheckoutView_Previews: PreviewProvider {
     static let order = Order()
     static var previews: some View {
-        NavigationView{
-            CheckoutView().environmentObject(order)
+        Group{
+            CheckoutView().environmentObject(order).environment(\.colorScheme, .dark)
+            CheckoutView().environmentObject(order).environment(\.colorScheme, .light)
         }
     }
 }
