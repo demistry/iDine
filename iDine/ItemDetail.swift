@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ItemDetail: View {
     @EnvironmentObject var order : Order
+    @EnvironmentObject var favorites : Favorites
     var item : MenuItem
     var body: some View {
         VStack{
@@ -33,11 +34,15 @@ struct ItemDetail: View {
             Spacer()
         }
         .navigationBarTitle(Text(item.name), displayMode: .inline)
+        .navigationBarItems(trailing: Button("Favorite"){
+            self.favorites.add(item: self.item)
+        }.foregroundColor(.green))
     }
 }
 
 struct ItemDetail_Previews: PreviewProvider {
     static let order = Order()
+//    static let fave = Favorites()
     static var previews: some View {
         NavigationView{
             ItemDetail(item: MenuItem.example).environmentObject(order)

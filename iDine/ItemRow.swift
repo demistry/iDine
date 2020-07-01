@@ -11,10 +11,10 @@ import SwiftUI
 struct ItemRow: View {
     var menuItem : MenuItem
     static let colors: [String: Color] = ["D": .purple, "G": .black, "N": .red, "S": .blue, "V": .green]
-
+    var isEnabled : Bool = true
     var body: some View {
         
-        NavigationLink(destination: ItemDetail(item: menuItem)) {
+        NavigationLink(destination: isEnabled ? ItemDetail(item: menuItem) : nil) {
             HStack{
             Image(menuItem.thumbnailImage)
                 .clipShape(Circle())
@@ -35,12 +35,12 @@ struct ItemRow: View {
                     .foregroundColor(.white)
                 }
             }
-        }
+        }.disabled(!isEnabled)
     }
 }
 
 struct ItemRow_Previews: PreviewProvider {
     static var previews: some View {
-        ItemRow(menuItem: MenuItem.example)
+        ItemRow(menuItem: MenuItem.example, isEnabled: true)
     }
 }
